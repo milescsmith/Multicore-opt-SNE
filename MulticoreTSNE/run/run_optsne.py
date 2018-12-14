@@ -27,7 +27,7 @@ args = parser.parse_args()
 
 def parse_csv(filepath):
     if not os.path.exists(filepath):
-        raise RuntimeError("Cannot find file at " + filepath)
+        raise RuntimeError(f"Cannot find file at {filepath}")
     mat = np.loadtxt(filepath, delimiter=',', skiprows=1)
     return mat
 
@@ -58,14 +58,14 @@ tsne = TSNE(n_jobs=int(args.n_threads),
             )
 
 if args.verbose:
-    print("Available CPU cores detected: " + str(multiprocessing.cpu_count()))
+    print(f"Available CPU cores detected: {str(multiprocessing.cpu_count())}")
 tsne_result = tsne.fit_transform(data)
 try:
     np.savetxt(args.outfile, tsne_result, delimiter=",")
     if args.verbose:
-        print("Results saved as " + args.outfile)
+        print(f"Results saved as {args.outfile}")
 except:
-    print "can't write to " + args.outfile + ". Is path valid?"
+    print(f"can't write to {args.outfile}. Is path valid?")
     np.savetxt(default_result_path, tsne_result, delimiter=",")
     if args.verbose:
-        print("Results saved as " + default_result_path)
+        print(f"Results saved as {default_result_path}")
