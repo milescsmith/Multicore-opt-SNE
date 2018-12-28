@@ -1,3 +1,4 @@
+from __future__ import print_function
 import numpy as np
 import os
 from MulticoreTSNE import MulticoreTSNE as TSNE
@@ -27,7 +28,7 @@ args = parser.parse_args()
 
 def parse_csv(filepath):
     if not os.path.exists(filepath):
-        raise RuntimeError(f"Cannot find file at {filepath}")
+        raise RuntimeError("Cannot find file at {}".format(filepath))
     mat = np.loadtxt(filepath, delimiter=',', skiprows=1)
     return mat
 
@@ -58,14 +59,14 @@ tsne = TSNE(n_jobs=int(args.n_threads),
             )
 
 if args.verbose:
-    print(f"Available CPU cores detected: {str(multiprocessing.cpu_count())}")
+    print("Available CPU cores detected: {}".format(str(multiprocessing.cpu_count())))
 tsne_result = tsne.fit_transform(data)
 try:
     np.savetxt(args.outfile, tsne_result, delimiter=",")
     if args.verbose:
-        print(f"Results saved as {args.outfile}")
+        print("Results saved as {}".format(args.outfile))
 except:
-    print(f"can't write to {args.outfile}. Is path valid?")
+    print("can't write to {}. Is path valid?".format(args.outfile))
     np.savetxt(default_result_path, tsne_result, delimiter=",")
     if args.verbose:
-        print(f"Results saved as {default_result_path}")
+        print("Results saved as {}".format(default_result_path))
